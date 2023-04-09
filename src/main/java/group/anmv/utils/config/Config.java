@@ -1,7 +1,7 @@
 package group.anmv.utils.config;
 
 public class Config {
-    private final String gpt_api_key;
+    public final String gpt_api_key;
 
     protected Config() {
         this.gpt_api_key = null;
