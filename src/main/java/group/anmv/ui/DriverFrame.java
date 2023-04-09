@@ -1,4 +1,4 @@
-package group.anmv;
+package group.anmv.ui;
 
 import javax.swing.*;
 
