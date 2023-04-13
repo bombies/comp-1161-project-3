@@ -1,6 +1,6 @@
 package group.anmv.ui;
 
-import group.anmv.ui.models.Ingredients;
+import group.anmv.ui.models.Ingredient;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -14,7 +14,7 @@ import java.util.List;
  */
 public class DriverFrame extends JFrame {
 
-    private ArrayList<Ingredients> grocerylist = new ArrayList<Ingredients>(List.of(new Ingredients("Bread", 100)));
+    private ArrayList<Ingredient> grocerylist = new ArrayList<Ingredient>(List.of(new Ingredient("Bread", 100)));
     private JPanel buttonPanel;
     private DefaultTableModel tableModel;
     private JScrollPane scrollPane;
@@ -63,8 +63,8 @@ public class DriverFrame extends JFrame {
      * Method that allows for populating table on first start-up
      * @param grocerylist list of Ingredients objects to be added to the GUI table
      */
-    private void populateTable(ArrayList<Ingredients> grocerylist) {
-        for (Ingredients ingredient : grocerylist){
+    private void populateTable(ArrayList<Ingredient> grocerylist) {
+        for (Ingredient ingredient : grocerylist){
             Object[] item = {ingredient.getName(), ingredient.getCost()};
             tableModel.addRow(item);
         }

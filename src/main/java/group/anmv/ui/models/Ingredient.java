@@ -4,12 +4,12 @@ package group.anmv.ui.models;
  * Class to facilitate objects for ingredients in grocery list
  * @author Nathan Smith
  */
-public class Ingredients {
+public class Ingredient {
 
     private String name;
     private int cost;
 
-    public Ingredients() {
+    public Ingredient() {
         this.name = null;
         this.cost = -1;
     }
@@ -19,7 +19,7 @@ public class Ingredients {
      * @param name name of ingredient
      * @param cost cost of ingredient
      */
-    public Ingredients(String name, int cost) {
+    public Ingredient(String name, int cost) {
         this.name = name;
         this.cost = cost;
     }
