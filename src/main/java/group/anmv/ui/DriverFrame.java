@@ -8,42 +8,44 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.List;
 
+/**
+ * Class to facilitate the creation of main GUI window
+ * @author Nathan Smith
+ */
 public class DriverFrame extends JFrame {
 
-    private ArrayList<Ingredients> grocerylist = new ArrayList<Ingredients>(Arrays.asList(new Ingredients("Bread", 100)));
+    private ArrayList<Ingredients> grocerylist = new ArrayList<Ingredients>(List.of(new Ingredients("Bread", 100)));
     private JPanel buttonPanel;
     private DefaultTableModel tableModel;
     private JScrollPane scrollPane;
 
-    public DriverFrame(){
+    /**
+     * Constructor for main GUI window
+     */
+    public DriverFrame() {
         super("Grocery List");
         setLayout(new BorderLayout());
         buttonPanel = new JPanel();
         JButton add = new JButton("Add Ingredient");
-        add.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        add.addActionListener((actionPerformed) -> {
                 new GroceryEntry(grocerylist);
-            }
         });
         JButton sort = new JButton("Sort Ingredients");
         JButton recommendIngredient = new JButton("Recommend Ingredients");
         JButton recommendRecipe = new JButton("Recommend Recipes");
         JButton close = new JButton("Close Grocery List");
-        close.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        close.addActionListener((actionPerformed) -> {
                 System.exit(0);
-            }
+
         });
         buttonPanel.add(add);
         buttonPanel.add(sort);
         buttonPanel.add(recommendRecipe);
         buttonPanel.add(recommendIngredient);
         buttonPanel.add(close);
-        if(grocerylist!=null) {
+        if(grocerylist != null) {
             String[] columnNames = {"Ingredient Name", "Cost"};
             tableModel = new DefaultTableModel(columnNames, 0);
             populateTable(grocerylist);
@@ -59,13 +61,20 @@ public class DriverFrame extends JFrame {
         this.add(buttonPanel, BorderLayout.SOUTH);
     }
 
-    private void populateTable(ArrayList<Ingredients> grocerylist){
-        for (Ingredients ingredient: grocerylist){
+    /**
+     * Method that allows for populating table on first start-up
+     * @param grocerylist list of Ingredients objects to be added to the GUI table
+     */
+    private void populateTable(ArrayList<Ingredients> grocerylist) {
+        for (Ingredients ingredient : grocerylist){
             Object[] item = {ingredient.getName(), ingredient.getCost()};
             tableModel.addRow(item);
         }
     }
 
+    /**
+     * Method that instantiates the main GUI window to be used by user
+     */
     public static void driver() {
        DriverFrame frame =  new DriverFrame();
        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
