@@ -1,5 +1,7 @@
 package group.anmv.ui;
 
+import group.anmv.models.Ingredients;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -8,12 +10,12 @@ import java.util.ArrayList;
 
 public class GroceryEntry extends JFrame {
 
-    ArrayList<String> grocerylist;
+    ArrayList<Ingredients> grocerylist;
     private JPanel buttonPanel;
     private JPanel displayPanel;
     private GroceryEntry thisgroceryentry;
 
-    public GroceryEntry(ArrayList<String> grocerylist){
+    public GroceryEntry(ArrayList<Ingredients> grocerylist){
         super("Add a New Ingredient");
         this.grocerylist = grocerylist;
         thisgroceryentry = this;
