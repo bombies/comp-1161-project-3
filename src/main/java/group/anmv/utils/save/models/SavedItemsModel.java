@@ -11,6 +11,8 @@ import java.util.List;
  * items added by the user. This model will be
  * used to facilitate the simple serialization/
  * deserialization process for saving POJOs.
+ *
+ * @author Ajani Green
  */
 public class SavedItemsModel {
     private List<Ingredient> items;

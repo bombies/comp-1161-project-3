@@ -13,6 +13,8 @@ import static org.junit.Assert.*;
 /**
  * This class contains all the tests for
  * the SaveHandler implementation.
+ *
+ * @author Ajani Green
  */
 public class SaveTests {
 

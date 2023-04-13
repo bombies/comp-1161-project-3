@@ -16,6 +16,8 @@ import java.util.List;
  * This is the class that will handle all persistent-storage
  * operations. All the methods in this class are static to
  * limit the use of heap-memory being used.
+ *
+ * @author Ajani Green
  */
 public class SaveHandler {
     /**
