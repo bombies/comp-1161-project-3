@@ -7,7 +7,7 @@ package group.anmv.ui.models;
 public class Ingredient {
 
     private String name;
-    private int cost;
+    private double cost;
 
     public Ingredient() {
         this.name = null;
@@ -19,7 +19,7 @@ public class Ingredient {
      * @param name name of ingredient
      * @param cost cost of ingredient
      */
-    public Ingredient(String name, int cost) {
+    public Ingredient(String name, double cost) {
         this.name = name;
         this.cost = cost;
     }
@@ -28,7 +28,7 @@ public class Ingredient {
         return name;
     }
 
-    public int getCost() {
+    public double getCost() {
         return cost;
     }
 

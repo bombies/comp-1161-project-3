@@ -1,6 +1,9 @@
 package group.anmv.ui;
 
+import group.anmv.ui.components.ErrorFrame;
+import group.anmv.ui.components.SuggestionsFrame;
 import group.anmv.ui.models.Ingredient;
+import group.anmv.utils.app.RecommendationUtils;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -14,7 +17,7 @@ import java.util.List;
  */
 public class DriverFrame extends JFrame {
 
-    private ArrayList<Ingredient> grocerylist = new ArrayList<Ingredient>(List.of(new Ingredient("Bread", 100)));
+    private ArrayList<Ingredient> grocerylist = new ArrayList<>(List.of(new Ingredient("Bread", 100)));
     private JPanel buttonPanel;
     private DefaultTableModel tableModel;
     private JScrollPane scrollPane;
@@ -34,10 +37,26 @@ public class DriverFrame extends JFrame {
         JButton recommendIngredient = new JButton("Recommend Ingredients");
         JButton recommendRecipe = new JButton("Recommend Recipes");
         JButton close = new JButton("Close Grocery List");
+
         close.addActionListener((actionPerformed) -> {
                 System.exit(0);
 
         });
+
+        recommendIngredient.addActionListener((e) -> {
+            if (grocerylist.size() == 0)
+                new ErrorFrame("I can't suggest any items if you have none in your list!");
+            else {
+//                final var suggestedItems = RecommendationUtils.getSuggestedItems(
+//                        grocerylist.stream()
+//                                .map(Ingredient::getName)
+//                                .toList()
+//                );
+                new SuggestionsFrame(List.of("Apples", "Bananas", "Flour"));
+            }
+
+        });
+
         buttonPanel.add(add);
         buttonPanel.add(sort);
         buttonPanel.add(recommendRecipe);
