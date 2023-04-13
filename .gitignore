@@ -39,3 +39,6 @@ build/
 
 ## Classpath
 resources/
+
+## Saves
+data/
