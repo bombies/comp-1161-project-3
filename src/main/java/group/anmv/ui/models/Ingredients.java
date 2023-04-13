@@ -1,4 +1,4 @@
-package group.anmv.models;
+package group.anmv.ui.models;
 
 /**
  * Class to facilitate objects for ingredients in grocery list

@@ -1,11 +1,9 @@
 package group.anmv.ui;
 
-import group.anmv.models.Ingredients;
+import group.anmv.ui.models.Ingredients;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 /**
