@@ -9,8 +9,16 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
+/**
+ * This class contains all the tests for
+ * the SaveHandler implementation.
+ */
 public class SaveTests {
 
+    /**
+     * Test if items can be successfully saved.
+     * @throws IOException Thrown if the file cannot be accessed/created.
+     */
     @Test
     public void testItemSave() throws IOException {
         final var testItems = List.of("Apple", "Cherries", "Watermelons", "Baking Soda");
@@ -25,6 +33,10 @@ public class SaveTests {
         assertTrue("Testing if content is the same", optimisticContent.similar(new JSONObject(SaveHandler.readFromFile(optimisticFile))));
     }
 
+    /**
+     * Test if items can be successfully appended and saved.
+     * @throws IOException Thrown if the file cannot be accessed/created.
+     */
     @Test
     public void testItemAppendSave() throws IOException {
         final var testSavedItemsModel = new SavedItemsModel(
@@ -42,6 +54,10 @@ public class SaveTests {
         assertTrue("Testing if content is the same", optimisticContent.similar(new JSONObject(SaveHandler.readFromFile(optimisticFile))));
     }
 
+    /**
+     * test if items can be successfully removed and saved.
+     * @throws IOException Thrown if the file cannot be accessed/created.
+     */
     @Test
     public void testItemRemoval() throws IOException {
         final var testSavedItemsModel = new SavedItemsModel(
@@ -59,6 +75,10 @@ public class SaveTests {
         assertTrue("Testing if content is the same", optimisticContent.similar(new JSONObject(SaveHandler.readFromFile(optimisticFile))));
     }
 
+    /**
+     * Test if items can be successfully cleared and saved.
+     * @throws IOException Thrown if the file cannot be accessed/created.
+     */
     @Test
     public void testItemClear() throws IOException {
         final var testSavedItemsModel = new SavedItemsModel(
