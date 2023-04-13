@@ -1,5 +1,7 @@
 package group.anmv.utils.save.models;
 
+import group.anmv.ui.models.Ingredient;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +13,7 @@ import java.util.List;
  * deserialization process for saving POJOs.
  */
 public class SavedItemsModel {
-    private List<String> items;
+    private List<Ingredient> items;
     private long last_saved;
 
     /**
@@ -22,12 +24,12 @@ public class SavedItemsModel {
         last_saved = -1;
     }
 
-    public SavedItemsModel(List<String> items, long last_saved) {
+    public SavedItemsModel(List<Ingredient> items, long last_saved) {
         this.items = items;
         this.last_saved = last_saved;
     }
 
-    public List<String> getItems() {
+    public List<Ingredient> getItems() {
         return items;
     }
 
@@ -37,10 +39,11 @@ public class SavedItemsModel {
 
     /**
      * Add an item to the model's item list
+     *
      * @param item The item to add
      * @return This instance for object-chaining.
      */
-    public SavedItemsModel addItem(String item) {
+    public SavedItemsModel addItem(Ingredient item) {
         if (items == null)
             items = new ArrayList<>();
         items.add(item);
@@ -49,6 +52,7 @@ public class SavedItemsModel {
 
     /**
      * Update the model's last saved time
+     *
      * @param time The time to set
      */
     public void updateLastSaved(long time) {
