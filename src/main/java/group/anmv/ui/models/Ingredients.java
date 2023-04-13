@@ -9,6 +9,11 @@ public class Ingredients {
     private String name;
     private int cost;
 
+    public Ingredients() {
+        this.name = null;
+        this.cost = -1;
+    }
+
     /**
      * Constructor for Ingredients object
      * @param name name of ingredient
