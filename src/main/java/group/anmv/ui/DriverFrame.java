@@ -3,12 +3,12 @@ package group.anmv.ui;
 import group.anmv.ui.components.ErrorFrame;
 import group.anmv.ui.components.SuggestionsFrame;
 import group.anmv.ui.models.Ingredient;
-import group.anmv.utils.app.RecommendationUtils;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -31,9 +31,9 @@ public class DriverFrame extends JFrame {
         buttonPanel = new JPanel();
         JButton add = new JButton("Add Ingredient");
         add.addActionListener((actionPerformed) -> {
-                new GroceryEntry(grocerylist);
+                new GroceryEntry(grocerylist, this);
         });
-        JButton sort = new JButton("Sort Ingredients");
+        JButton sort = new JButton("Sort Ingredients By Cost");
         JButton recommendIngredient = new JButton("Recommend Ingredients");
         JButton recommendRecipe = new JButton("Recommend Recipes");
         JButton close = new JButton("Close Grocery List");
@@ -57,6 +57,15 @@ public class DriverFrame extends JFrame {
 
         });
 
+
+        sort.addActionListener((e) ->
+                {
+                        tableModel.setRowCount(0);
+                        Collections.sort(grocerylist);
+                        populateTable(grocerylist);
+                });
+
+
         buttonPanel.add(add);
         buttonPanel.add(sort);
         buttonPanel.add(recommendRecipe);
@@ -78,16 +87,19 @@ public class DriverFrame extends JFrame {
         this.add(buttonPanel, BorderLayout.SOUTH);
     }
 
+
+
     /**
      * Method that allows for populating table on first start-up
      * @param grocerylist list of Ingredients objects to be added to the GUI table
      */
-    private void populateTable(ArrayList<Ingredient> grocerylist) {
+    public void populateTable(ArrayList<Ingredient> grocerylist) {
         for (Ingredient ingredient : grocerylist){
             Object[] item = {ingredient.getName(), ingredient.getCost()};
             tableModel.addRow(item);
         }
     }
+
 
     /**
      * Method that instantiates the main GUI window to be used by user
@@ -99,4 +111,11 @@ public class DriverFrame extends JFrame {
        frame.pack();
        frame.setVisible(true);
     }
+
+    public DefaultTableModel gettableModel()
+    {
+        return tableModel;
+    }
+
+
 }

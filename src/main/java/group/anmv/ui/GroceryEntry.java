@@ -24,20 +24,21 @@ public class GroceryEntry extends JFrame {
     private JPanel buttonPanel;
     private JPanel displayPanel;
     private GroceryEntry thisgroceryentry;
-
-    public GroceryEntry(ArrayList<Ingredient> grocerylist) {
+    private DriverFrame DFrame;
+    public GroceryEntry(ArrayList<Ingredient> grocerylist, DriverFrame DFrame) {
         super("Add a New Ingredient");
         this.grocerylist = grocerylist;
         thisgroceryentry = this;
         buttonPanel = new JPanel();
         displayPanel = new JPanel();
+        this.DFrame=DFrame;
 
         final var nameTextField = new JTextField(20);
         final var costTextField = new JTextField(20);
 
         displayPanel.add(new JLabel("Ingredient Name:"));
         displayPanel.add(nameTextField);
-        displayPanel.add(new JLabel("Ingredient Cost:"));
+        displayPanel.add(new JLabel("Ingredient Unit Cost:"));
         displayPanel.add(costTextField);
         displayPanel.setLayout(new GridLayout(3, 2));
         JButton addIngredient = new JButton("Add Ingredient");
@@ -49,7 +50,10 @@ public class GroceryEntry extends JFrame {
             try {
                 final var itemName = nameTextField.getText();
                 final var cost = Double.parseDouble(costTextField.getText());
-
+                Ingredient i=new Ingredient(itemName, cost);
+                grocerylist.add(i);
+                String ing[]={i.getName(), String.valueOf(i.getCost())};
+                DFrame.gettableModel().addRow(ing);
                 // TODO: Updating in-memory item list
                 SaveHandler.appendItem(new Ingredient(itemName, cost));
                 setVisible(false);
@@ -59,7 +63,9 @@ public class GroceryEntry extends JFrame {
                 ex.printStackTrace();
                 new ErrorFrame("There was an error saving that data!");
             }
+
         });
+
 
         buttonPanel.add(addIngredient);
         buttonPanel.add(closeWindow);
