@@ -9,6 +9,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -17,7 +18,7 @@ import java.util.List;
  */
 public class DriverFrame extends JFrame {
 
-    private ArrayList<Ingredient> grocerylist = new ArrayList<>(List.of(new Ingredient("Bread", 100)));
+    private ArrayList<Ingredient> grocerylist = new ArrayList<>(List.of(new Ingredient("Bread", 100, 12)));
     private JPanel buttonPanel;
     private DefaultTableModel tableModel;
     private JScrollPane scrollPane;
@@ -33,7 +34,8 @@ public class DriverFrame extends JFrame {
         add.addActionListener((actionPerformed) -> {
                 new GroceryEntry(grocerylist, this);
         });
-        JButton sort = new JButton("Sort Ingredients By Cost");
+        JButton sortcost = new JButton("Sort Ingredients By Cost");
+        JButton sortname = new JButton("Sort Ingredients By Name");
         JButton recommendIngredient = new JButton("Recommend Ingredients");
         JButton recommendRecipe = new JButton("Recommend Recipes");
         JButton close = new JButton("Close Grocery List");
@@ -58,21 +60,46 @@ public class DriverFrame extends JFrame {
         });
 
 
-        sort.addActionListener((e) ->
-                {
-                        tableModel.setRowCount(0);
-                        Collections.sort(grocerylist);
-                        populateTable(grocerylist);
-                });
 
+
+        class Name implements Comparator <Ingredient>
+        {
+            public int compare(Ingredient i1, Ingredient i2)
+            {
+                return (int)(i1.getName().compareTo(i2.getName()));
+            }
+        }
+
+        class Cost implements Comparator<Ingredient>
+        {
+            public int compare(Ingredient i1, Ingredient i2)
+            {
+                return (int) (i1.getCost()-i2.getCost());
+            }
+        }
+
+        sortcost.addActionListener((e) ->
+        {
+            tableModel.setRowCount(0);
+            Collections.sort(grocerylist, new Cost());
+            populateTable(grocerylist);
+        });
+
+        sortname.addActionListener((e) ->
+        {
+            tableModel.setRowCount(0);
+            Collections.sort(grocerylist, new Name());
+            populateTable(grocerylist);
+        });
 
         buttonPanel.add(add);
-        buttonPanel.add(sort);
+        buttonPanel.add(sortcost);
+        buttonPanel.add(sortname);
         buttonPanel.add(recommendRecipe);
         buttonPanel.add(recommendIngredient);
         buttonPanel.add(close);
         if(grocerylist != null) {
-            String[] columnNames = {"Ingredient Name", "Cost"};
+            String[] columnNames = {"Ingredient Name", "Cost", "Quantity", "Ingredient Total Cost"};
             tableModel = new DefaultTableModel(columnNames, 0);
             populateTable(grocerylist);
             scrollPane = new JScrollPane(new JTable(tableModel));

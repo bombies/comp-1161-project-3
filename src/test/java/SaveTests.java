@@ -26,10 +26,10 @@ public class SaveTests {
     @Test
     public void testItemSave() throws IOException {
         final var testItems = List.of(
-                new Ingredient("Apple", 10),
-                new Ingredient("Cherries", 10),
-                new Ingredient("Watermelon", 10),
-                new Ingredient("Baking Soda", 10)
+                new Ingredient("Apple", 10, 3),
+                new Ingredient("Cherries", 10, 4),
+                new Ingredient("Watermelon", 10, 5),
+                new Ingredient("Baking Soda", 10, 5)
         );
 
         final var saveTime = SaveHandler.saveItems(testItems);
@@ -51,24 +51,24 @@ public class SaveTests {
     public void testItemAppendSave() throws IOException {
         final var testSavedItemsModel = new SavedItemsModel(
                 List.of(
-                        new Ingredient("Apple", 10),
-                        new Ingredient("Cherries", 10),
-                        new Ingredient("Watermelon", 10),
-                        new Ingredient("Baking Soda", 10)
+                        new Ingredient("Apple", 10, 2),
+                        new Ingredient("Cherries", 10, 3),
+                        new Ingredient("Watermelon", 10, 4),
+                        new Ingredient("Baking Soda", 10, 5)
                 ),
                 System.currentTimeMillis()
         );
 
         SaveHandler.saveItems(testSavedItemsModel);
-        final var saveTime = SaveHandler.appendItem(new Ingredient("Bananas", 10));
+        final var saveTime = SaveHandler.appendItem(new Ingredient("Bananas", 10, 5));
         final var optimisticFile = new File("./data/items.json");
         final var optimisticContent = new JSONObject()
                 .put("items", List.of(
-                        new Ingredient("Apple", 10),
-                        new Ingredient("Cherries", 10),
-                        new Ingredient("Watermelon", 10),
-                        new Ingredient("Baking Soda", 10),
-                        new Ingredient("Bananas", 10)
+                        new Ingredient("Apple", 10, 2),
+                        new Ingredient("Cherries", 10, 4),
+                        new Ingredient("Watermelon", 10, 5),
+                        new Ingredient("Baking Soda", 10, 6),
+                        new Ingredient("Bananas", 10, 7)
                 ))
                 .put("last_saved", saveTime);
         assertNotNull(optimisticFile);
@@ -84,22 +84,22 @@ public class SaveTests {
     public void testItemRemoval() throws IOException {
         final var testSavedItemsModel = new SavedItemsModel(
                 List.of(
-                        new Ingredient("Apple", 10),
-                        new Ingredient("Cherries", 10),
-                        new Ingredient("Watermelon", 10),
-                        new Ingredient("Baking Soda", 10)
+                        new Ingredient("Apple", 10, 3),
+                        new Ingredient("Cherries", 10,4 ),
+                        new Ingredient("Watermelon", 10, 5),
+                        new Ingredient("Baking Soda", 10, 6)
                 ),
                 System.currentTimeMillis()
         );
 
         SaveHandler.saveItems(testSavedItemsModel);
-        final var saveTime = SaveHandler.removeItem(new Ingredient("Baking Soda", 10));
+        final var saveTime = SaveHandler.removeItem(new Ingredient("Baking Soda", 10, 4));
         final var optimisticFile = new File("./data/items.json");
         final var optimisticContent = new JSONObject()
                 .put("items", List.of(
-                                new Ingredient("Apple", 10),
-                                new Ingredient("Cherries", 10),
-                                new Ingredient("Watermelon", 10)
+                                new Ingredient("Apple", 10, 3 ),
+                                new Ingredient("Cherries", 10, 4),
+                                new Ingredient("Watermelon", 10, 4)
                         )
                 )
                 .put("last_saved", saveTime);
@@ -116,10 +116,10 @@ public class SaveTests {
     public void testItemClear() throws IOException {
         final var testSavedItemsModel = new SavedItemsModel(
                 List.of(
-                        new Ingredient("Apple", 10),
-                        new Ingredient("Cherries", 10),
-                        new Ingredient("Watermelon", 10),
-                        new Ingredient("Baking Soda", 10)
+                        new Ingredient("Apple", 10,2 ),
+                        new Ingredient("Cherries", 10,2 ),
+                        new Ingredient("Watermelon", 10, 3),
+                        new Ingredient("Baking Soda", 10, 4)
                 ),
                 System.currentTimeMillis()
         );
