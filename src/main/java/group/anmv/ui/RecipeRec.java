@@ -2,7 +2,6 @@ package group.anmv.ui;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Arrays;
 
 public class RecipeRec extends JFrame {
 
