@@ -3,6 +3,7 @@ package group.anmv.ui;
 import group.anmv.ui.components.ErrorFrame;
 import group.anmv.ui.components.SuggestionsFrame;
 import group.anmv.ui.models.Ingredient;
+import group.anmv.ui.components.RemoveFrame;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -18,10 +19,11 @@ import java.util.List;
  */
 public class DriverFrame extends JFrame {
 
-    private ArrayList<Ingredient> grocerylist = new ArrayList<>(List.of(new Ingredient("Bread", 100, 12)));
+    private ArrayList<Ingredient> groceryList = new ArrayList<>(List.of(new Ingredient("Bread", 100, 12)));
     private JPanel buttonPanel;
     private DefaultTableModel tableModel;
     private JScrollPane scrollPane;
+
 
     /**
      * Constructor for main GUI window
@@ -32,12 +34,13 @@ public class DriverFrame extends JFrame {
         buttonPanel = new JPanel();
         JButton add = new JButton("Add Ingredient");
         add.addActionListener((actionPerformed) -> {
-                new GroceryEntry(grocerylist, this);
+                new GroceryEntry(groceryList, this);
         });
-        JButton sortcost = new JButton("Sort Ingredients By Cost");
-        JButton sortname = new JButton("Sort Ingredients By Name");
+        JButton sortCost = new JButton("Sort Ingredients By Cost");
+        JButton sortName = new JButton("Sort Ingredients By Name");
         JButton recommendIngredient = new JButton("Recommend Ingredients");
         JButton recommendRecipe = new JButton("Recommend Recipes");
+        JButton removeing=new JButton("Remove an Ingredient");
         JButton close = new JButton("Close Grocery List");
 
         close.addActionListener((actionPerformed) -> {
@@ -46,11 +49,11 @@ public class DriverFrame extends JFrame {
         });
 
         recommendIngredient.addActionListener((e) -> {
-            if (grocerylist.size() == 0)
+            if (groceryList.size() == 0)
                 new ErrorFrame("I can't suggest any items if you have none in your list!");
             else {
 //                final var suggestedItems = RecommendationUtils.getSuggestedItems(
-//                        grocerylist.stream()
+//                        groceryList.stream()
 //                                .map(Ingredient::getName)
 //                                .toList()
 //                );
@@ -62,7 +65,7 @@ public class DriverFrame extends JFrame {
 
 
 
-        class Name implements Comparator <Ingredient>
+        class IngredientNameComparator implements Comparator <Ingredient>
         {
             public int compare(Ingredient i1, Ingredient i2)
             {
@@ -70,7 +73,7 @@ public class DriverFrame extends JFrame {
             }
         }
 
-        class Cost implements Comparator<Ingredient>
+        class IngredientCostComparator  implements Comparator<Ingredient>
         {
             public int compare(Ingredient i1, Ingredient i2)
             {
@@ -78,30 +81,35 @@ public class DriverFrame extends JFrame {
             }
         }
 
-        sortcost.addActionListener((e) ->
-        {
+        sortCost.addActionListener((e) -> {
             tableModel.setRowCount(0);
-            Collections.sort(grocerylist, new Cost());
-            populateTable(grocerylist);
+            Collections.sort(groceryList, new IngredientNameComparator ());
+            populateTable(groceryList);
         });
 
-        sortname.addActionListener((e) ->
-        {
+        sortName.addActionListener((e) -> {
             tableModel.setRowCount(0);
-            Collections.sort(grocerylist, new Name());
-            populateTable(grocerylist);
+            Collections.sort(groceryList, new IngredientNameComparator ());
+            populateTable(groceryList);
         });
+
+      removeing.addActionListener((e)-> {
+           new RemoveFrame(groceryList, this);
+        });
+
+
 
         buttonPanel.add(add);
-        buttonPanel.add(sortcost);
-        buttonPanel.add(sortname);
+        buttonPanel.add(sortCost);
+        buttonPanel.add(sortName);
         buttonPanel.add(recommendRecipe);
         buttonPanel.add(recommendIngredient);
+        buttonPanel.add(removeing);
         buttonPanel.add(close);
-        if(grocerylist != null) {
+        if(groceryList != null) {
             String[] columnNames = {"Ingredient Name", "Cost", "Quantity", "Ingredient Total Cost"};
             tableModel = new DefaultTableModel(columnNames, 0);
-            populateTable(grocerylist);
+            populateTable(groceryList);
             scrollPane = new JScrollPane(new JTable(tableModel));
             this.add(scrollPane, BorderLayout.CENTER);
         }
@@ -139,8 +147,7 @@ public class DriverFrame extends JFrame {
        frame.setVisible(true);
     }
 
-    public DefaultTableModel gettableModel()
-    {
+    public DefaultTableModel getTableModel() {
         return tableModel;
     }
 

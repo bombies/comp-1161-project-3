@@ -22,7 +22,7 @@ public class Ingredient implements Comparable <Ingredient> {
     public Ingredient(String name, double cost, int quantity) {
         this.name = name;
         this.cost = cost;
-        this.quantity=quantity;
+        this.quantity = quantity;
     }
 
     public String getName() {
@@ -32,11 +32,13 @@ public class Ingredient implements Comparable <Ingredient> {
     public double getCost() {
         return cost;
     }
-    public double getQuan() {
+    public double getQuantity() {
         return quantity;
     }
 
-    public double calctotalingcost(){return cost*quantity;}
+    public double calctotalingcost(){
+        return cost * quantity;
+    }
     public int compareTo(Ingredient other)
     {
         return (int) (other.getCost() - this.getCost());

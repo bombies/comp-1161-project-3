@@ -57,8 +57,8 @@ public class GroceryEntry extends JFrame {
                 final var quantity = Integer.parseInt(quanTextField.getText());
                 Ingredient i=new Ingredient(itemName, cost, quantity);
                 grocerylist.add(i);
-                String ing[]={i.getName(), String.valueOf(i.getCost()), String.valueOf(i.getQuan()), String.valueOf(i.calctotalingcost())};
-                DFrame.gettableModel().addRow(ing);
+                String ing[]={i.getName(), String.valueOf(i.getCost()), String.valueOf(i.getQuantity()), String.valueOf(i.calctotalingcost())};
+                DFrame.getTableModel().addRow(ing);
                 // TODO: Updating in-memory item list
                 SaveHandler.appendItem(new Ingredient(itemName, cost, quantity));
                 setVisible(false);
