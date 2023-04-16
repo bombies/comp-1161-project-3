@@ -9,17 +9,18 @@ import java.awt.*;
 import java.util.ArrayList;
 
 /**
- * The frame that will be used to display the suggestions
- * and mutate the suggestions.
+ * The frame that will be used to allow
+ * the user to input the ingredient they
+ * want to remove from the list
  *
- * @author Ajani
+ * @author Mohitha
  */
 public class RemoveFrame extends JFrame {
 
-    private DriverFrame Dframe;
+    private DriverFrame driverFrame;
     public RemoveFrame(ArrayList<Ingredient> grocerylist, DriverFrame dframe) {
         super("Ingredient Removal");
-        this.Dframe=dframe;
+        this.driverFrame=dframe;
         final var removalPanel = new JPanel();
         final var nameTextField = new JTextField(20);
         removalPanel.setBorder(new EmptyBorder(10, 40, 10, 40));
@@ -32,12 +33,17 @@ public class RemoveFrame extends JFrame {
         nameTextField.addActionListener((e)->
         {
             final var entry = nameTextField.getText();
+            boolean removed=false;
             for (int i = 0; i <= grocerylist.size(); i++) {
-                if (grocerylist.get(i).getName().equals(entry)) {
+                if (grocerylist.get(i).getName().equalsIgnoreCase(entry.strip())) {
                     grocerylist.remove(i);
-                    dframe.getTableModel().removeRow(i);
-                } else new ErrorFrame("Invalid Entry!");
+                    driverFrame.getTableModel().removeRow(i);
+                    removed=true;
+                    break;
+                }
             }
+            if (!removed)
+                new ErrorFrame("Invalid Entry!");
         });
 
         setResizable(false);
@@ -46,6 +52,5 @@ public class RemoveFrame extends JFrame {
         setVisible(true);
     }
 
-    private void removalPanel(JPanel removalPanel) {
-    }
+
 }

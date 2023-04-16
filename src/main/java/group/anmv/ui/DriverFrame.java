@@ -4,6 +4,8 @@ import group.anmv.ui.components.ErrorFrame;
 import group.anmv.ui.components.SuggestionsFrame;
 import group.anmv.ui.models.Ingredient;
 import group.anmv.ui.components.RemoveFrame;
+import group.anmv.ui.models.IngredientCostComparator;
+import group.anmv.ui.models.IngredientNameComparator;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -40,7 +42,7 @@ public class DriverFrame extends JFrame {
         JButton sortName = new JButton("Sort Ingredients By Name");
         JButton recommendIngredient = new JButton("Recommend Ingredients");
         JButton recommendRecipe = new JButton("Recommend Recipes");
-        JButton removeing=new JButton("Remove an Ingredient");
+        JButton removeIngredient=new JButton("Remove an Ingredient");
         JButton close = new JButton("Close Grocery List");
 
         close.addActionListener((actionPerformed) -> {
@@ -64,36 +66,19 @@ public class DriverFrame extends JFrame {
 
 
 
-
-        class IngredientNameComparator implements Comparator <Ingredient>
-        {
-            public int compare(Ingredient i1, Ingredient i2)
-            {
-                return (int)(i1.getName().compareTo(i2.getName()));
-            }
-        }
-
-        class IngredientCostComparator  implements Comparator<Ingredient>
-        {
-            public int compare(Ingredient i1, Ingredient i2)
-            {
-                return (int) (i1.getCost()-i2.getCost());
-            }
-        }
-
         sortCost.addActionListener((e) -> {
             tableModel.setRowCount(0);
-            Collections.sort(groceryList, new IngredientNameComparator ());
+            Collections.sort(groceryList,new IngredientCostComparator());
             populateTable(groceryList);
         });
 
         sortName.addActionListener((e) -> {
             tableModel.setRowCount(0);
-            Collections.sort(groceryList, new IngredientNameComparator ());
+            Collections.sort(groceryList,new IngredientNameComparator());
             populateTable(groceryList);
         });
 
-      removeing.addActionListener((e)-> {
+        removeIngredient.addActionListener((e)-> {
            new RemoveFrame(groceryList, this);
         });
 
@@ -104,7 +89,7 @@ public class DriverFrame extends JFrame {
         buttonPanel.add(sortName);
         buttonPanel.add(recommendRecipe);
         buttonPanel.add(recommendIngredient);
-        buttonPanel.add(removeing);
+        buttonPanel.add(removeIngredient);
         buttonPanel.add(close);
         if(groceryList != null) {
             String[] columnNames = {"Ingredient Name", "Cost", "Quantity", "Ingredient Total Cost"};

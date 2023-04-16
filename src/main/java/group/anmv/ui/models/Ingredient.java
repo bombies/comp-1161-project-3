@@ -4,7 +4,7 @@ package group.anmv.ui.models;
  * Class to facilitate objects for ingredients in grocery list
  * @author Nathan Smith
  */
-public class Ingredient implements Comparable <Ingredient> {
+public class Ingredient {
 
     private String name;
     private double cost;
@@ -36,12 +36,8 @@ public class Ingredient implements Comparable <Ingredient> {
         return quantity;
     }
 
-    public double calctotalingcost(){
+    public double calcTotalCost(){
         return cost * quantity;
-    }
-    public int compareTo(Ingredient other)
-    {
-        return (int) (other.getCost() - this.getCost());
     }
 
 }
