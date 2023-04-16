@@ -3,7 +3,7 @@ package group.anmv.ui;
 import group.anmv.ui.components.ErrorFrame;
 import group.anmv.ui.components.SuggestionsFrame;
 import group.anmv.ui.models.Ingredient;
-import group.anmv.utils.app.RecommendationUtils;
+import group.anmv.utils.app.suggestions.RecommendationUtils;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -47,12 +47,11 @@ public class DriverFrame extends JFrame {
             if (grocerylist.size() == 0)
                 new ErrorFrame("I can't suggest any items if you have none in your list!");
             else {
-//                final var suggestedItems = RecommendationUtils.getSuggestedItems(
-//                        grocerylist.stream()
-//                                .map(Ingredient::getName)
-//                                .toList()
-//                );
-                new SuggestionsFrame(List.of("Apples", "Bananas", "Flour"));
+                RecommendationUtils.getSuggestedItems(
+                        grocerylist.stream()
+                                .map(Ingredient::getName)
+                                .toList()
+                );
             }
 
         });
