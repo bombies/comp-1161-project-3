@@ -40,7 +40,9 @@ public class RecommendationUtils {
                 """;
         final var assistant = "The list should include the recipe name and the description";
         final var response = GPTService.instance().getResponse(prompt, assistant);
-        final var suggestions = response.split("[0-9]{1,2}.\\s");
+        final var suggestions = Arrays.stream(response.split("[0-9]{1,2}\\.\\s?"))
+                .filter(suggestion -> !suggestion.isBlank() && !suggestion.isEmpty())
+                .toArray(String[]::new);
         new RecipeRec(suggestions);
     }
 }
