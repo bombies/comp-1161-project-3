@@ -6,6 +6,7 @@ import group.anmv.ui.models.Ingredient;
 import group.anmv.ui.components.RemoveFrame;
 import group.anmv.ui.models.IngredientCostComparator;
 import group.anmv.ui.models.IngredientNameComparator;
+import group.anmv.utils.app.suggestions.RecommendationUtils;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -54,12 +55,11 @@ public class DriverFrame extends JFrame {
             if (groceryList.size() == 0)
                 new ErrorFrame("I can't suggest any items if you have none in your list!");
             else {
-//                final var suggestedItems = RecommendationUtils.getSuggestedItems(
-//                        groceryList.stream()
-//                                .map(Ingredient::getName)
-//                                .toList()
-//                );
-                new SuggestionsFrame(List.of("Apples", "Bananas", "Flour"));
+                RecommendationUtils.getSuggestedItems(
+                        grocerylist.stream()
+                                .map(Ingredient::getName)
+                                .toList()
+                );
             }
 
         });
