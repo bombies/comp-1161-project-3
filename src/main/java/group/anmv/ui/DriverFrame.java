@@ -36,6 +36,13 @@ public class DriverFrame extends JFrame {
         JButton sort = new JButton("Sort Ingredients");
         JButton recommendIngredient = new JButton("Recommend Ingredients");
         JButton recommendRecipe = new JButton("Recommend Recipes");
+        recommendRecipe.addActionListener((actionPerformed) -> {
+            if (grocerylist.size() == 0)
+                new ErrorFrame("I can't suggest any recipes if you have none in your list!");
+            else {
+                 RecommendationUtils.getSuggestedRecipes(grocerylist.stream().map(Ingredient::getName).toList());
+            }
+        });
         JButton close = new JButton("Close Grocery List");
 
         close.addActionListener((actionPerformed) -> {

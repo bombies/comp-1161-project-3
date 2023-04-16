@@ -1,6 +1,7 @@
 package group.anmv.utils.app;
 
 import group.anmv.api.GPTService;
+import group.anmv.ui.RecipeRec;
 
 import java.util.Arrays;
 import java.util.List;
@@ -27,5 +28,19 @@ public class RecommendationUtils {
         return Arrays.stream(suggestions)
                 .filter(suggestion -> !items.contains(suggestion))
                 .toList();
+    }
+
+    public static void getSuggestedRecipes(List<String> ingredients) {
+        final var prompt = """
+                Given the following list of items:\s
+                """
+                + ingredients.toString() +
+                """
+                suggest some recipes that I could use. Do not respond with any additional courtesies or anything, just a list of recipes and a description
+                """;
+        final var assistant = "The list should include the recipe name and the description";
+        final var response = GPTService.instance().getResponse(prompt, assistant);
+        final var suggestions = response.split("[0-9]{1,2}.\\s");
+        new RecipeRec(suggestions);
     }
 }
