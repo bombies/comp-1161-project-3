@@ -2,7 +2,6 @@ package group.anmv.utils.app.suggestions;
 
 import group.anmv.api.GPTService;
 import group.anmv.ui.components.ErrorFrame;
-import group.anmv.ui.components.LoadingFrame;
 import group.anmv.ui.components.SuggestionsFrame;
 
 import javax.swing.*;
