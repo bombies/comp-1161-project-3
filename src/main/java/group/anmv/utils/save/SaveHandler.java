@@ -196,7 +196,7 @@ public class SaveHandler {
             final var save = readFromFile(new File(SAVED_ITEMS_FILE));
             return mapper.readValue(save, SavedItemsModel.class);
         } catch (IOException e) {
-            return null;
+            return new SavedItemsModel(new ArrayList<>(), -1);
         }
     }
 
