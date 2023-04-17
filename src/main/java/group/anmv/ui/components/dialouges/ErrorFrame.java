@@ -1,4 +1,4 @@
-package group.anmv.ui.components;
+package group.anmv.ui.components.dialouges;
 
 import javax.swing.*;
 

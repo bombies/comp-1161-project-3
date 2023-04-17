@@ -1,8 +1,9 @@
 package group.anmv.utils.app.suggestions;
 
 import group.anmv.api.GPTService;
-import group.anmv.ui.components.ErrorFrame;
-import group.anmv.ui.components.SuggestionsFrame;
+import group.anmv.ui.DriverFrame;
+import group.anmv.ui.components.dialouges.ErrorFrame;
+import group.anmv.ui.components.suggestions.SuggestionsFrame;
 
 import javax.swing.*;
 import java.util.Arrays;
@@ -11,11 +12,12 @@ import java.util.concurrent.ExecutionException;
 
 public class SuggestedItemsLoader extends SwingWorker<List<String>, Object> {
     private final List<String> items;
-    private final SuggestionsFrame frame = new SuggestionsFrame();
+    private final SuggestionsFrame frame;
 
-    public SuggestedItemsLoader(List<String> items) {
+    public SuggestedItemsLoader(DriverFrame driverFrame, List<String> items) {
         super();
         this.items = items;
+        this.frame = new SuggestionsFrame(driverFrame);
     }
 
     @Override

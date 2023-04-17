@@ -11,6 +11,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * This is the class that will handle all persistent-storage
@@ -99,6 +100,45 @@ public class SaveHandler {
 
         saveItems(currentSave);
         return saveTime;
+    }
+
+    /**
+     * This method is used to edit an existing ingredient
+     * in the save file. If the save doesn't exist as yet,
+     * a new one will be created will the newInfo as the
+     * only ingredient.
+     *
+     * @param name    The name of the ingredient to edit
+     * @param newInfo The new information of the ingredient
+     * @return The time at which the edit was done. If there was no edit made
+     *          -1 will be returned.
+     * @throws IOException Thrown if there is an error attempting to create
+     *                     the save directory or writing to the file.
+     */
+    public static long editItem(String name, Ingredient newInfo) throws IOException {
+        final var saveTime = new AtomicLong(System.currentTimeMillis());
+        final var currentSave = getSave();
+
+        if (currentSave == null)
+            return appendItem(newInfo);
+        else {
+            currentSave.getItems().stream()
+                    .filter(item -> item.getName().equalsIgnoreCase(name))
+                    .findFirst()
+                    .ifPresentOrElse(ingredient -> {
+                        try {
+                            removeItem(ingredient);
+                            saveTime.set(appendItem(newInfo));
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }, () -> {
+                        saveTime.set(-1);
+                        throw new NullPointerException("There was no ingredient with the name: " + name);
+                    });
+        }
+
+        return saveTime.get();
     }
 
     /**

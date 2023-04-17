@@ -1,16 +1,14 @@
-package group.anmv.ui;
+package group.anmv.ui.components.mutations;
 
-import group.anmv.ui.components.ErrorFrame;
+import group.anmv.ui.DriverFrame;
+import group.anmv.ui.components.dialouges.ErrorFrame;
+import group.anmv.ui.components.dialouges.SuccessFrame;
 import group.anmv.ui.models.Ingredient;
 import group.anmv.utils.save.SaveHandler;
 
 import javax.swing.*;
-import javax.swing.text.InternationalFormatter;
 import java.awt.*;
 import java.io.IOException;
-import java.math.RoundingMode;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 
 /**
@@ -18,25 +16,23 @@ import java.util.ArrayList;
  *
  * @author Nathan Smith
  */
-public class GroceryEntry extends JFrame {
+public class EntryFrame extends JFrame {
 
     ArrayList<Ingredient> grocerylist;
     private JPanel buttonPanel;
     private JPanel displayPanel;
-    private GroceryEntry thisgroceryentry;
-    private DriverFrame DFrame;
-    public GroceryEntry(ArrayList<Ingredient> grocerylist, DriverFrame DFrame) {
+    private DriverFrame driverFrame;
+
+    public EntryFrame(final ArrayList<Ingredient> groceryList, DriverFrame driverFrame) {
         super("Add a New Ingredient");
-        this.grocerylist = grocerylist;
-        thisgroceryentry = this;
+        this.grocerylist = groceryList;
+        this.driverFrame = driverFrame;
         buttonPanel = new JPanel();
         displayPanel = new JPanel();
-        this.DFrame=DFrame;
 
         final var nameTextField = new JTextField(20);
         final var costTextField = new JTextField(20);
         final var quanTextField = new JTextField(20);
-
 
         displayPanel.add(new JLabel("Ingredient Name:"));
         displayPanel.add(nameTextField);
@@ -48,19 +44,26 @@ public class GroceryEntry extends JFrame {
         JButton addIngredient = new JButton("Add Ingredient");
         JButton closeWindow = new JButton("Close");
 
-        closeWindow.addActionListener((actionPerformed) -> thisgroceryentry.setVisible(false));
+        closeWindow.addActionListener((actionPerformed) -> setVisible(false));
 
         addIngredient.addActionListener((e) -> {
             try {
                 final var itemName = nameTextField.getText();
                 final var cost = Double.parseDouble(costTextField.getText());
                 final var quantity = Integer.parseInt(quanTextField.getText());
-                Ingredient i=new Ingredient(itemName, cost, quantity);
-                grocerylist.add(i);
-                String ing[]={i.getName(), String.valueOf(i.getCost()), String.valueOf(i.getQuantity()), String.valueOf(i.calcTotalCost())};
-                DFrame.getTableModel().addRow(ing);
-                // TODO: Updating in-memory item list
-                SaveHandler.appendItem(new Ingredient(itemName, cost, quantity));
+                final var ingredient = new Ingredient(itemName, cost, quantity);
+
+                String[] ingredientMetaData = {
+                        itemName,
+                        String.valueOf(cost),
+                        String.valueOf(quantity),
+                        String.valueOf(ingredient.calcTotalCost())
+                };
+
+                driverFrame.getTableModel().addRow(ingredientMetaData);
+                driverFrame.addIngredient(ingredient);
+                SaveHandler.appendItem(ingredient);
+                new SuccessFrame("Successfully added ingredient with name: " + ingredient.getName());
                 setVisible(false);
             } catch (NumberFormatException ex) {
                 new ErrorFrame("Invalid Entry");

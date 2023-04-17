@@ -1,4 +1,6 @@
-package group.anmv.ui.components;
+package group.anmv.ui.components.suggestions;
+
+import group.anmv.ui.DriverFrame;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -12,10 +14,12 @@ import java.util.List;
  * @author Ajani
  */
 public class SuggestionsFrame extends JFrame {
-    final JPanel suggestionsPanel;
+    private final JPanel suggestionsPanel;
+    private final DriverFrame driverFrame;
 
-    public SuggestionsFrame() {
+    public SuggestionsFrame(DriverFrame driverFrame) {
         super("Ingredient Suggestions");
+        this.driverFrame = driverFrame;
 
         suggestionsPanel = new JPanel();
         suggestionsPanel.setBorder(new EmptyBorder(10, 40, 10, 40));
@@ -46,7 +50,7 @@ public class SuggestionsFrame extends JFrame {
 
     public void setItems(List<String> suggestions) {
         suggestionsPanel.removeAll();
-        suggestions.forEach(suggestion -> new SuggestionComponent(this, suggestionsPanel, suggestion));
+        suggestions.forEach(suggestion -> new SuggestionComponent(driverFrame, this, suggestionsPanel, suggestion));
         suggestionsPanel.validate();
         suggestionsPanel.repaint();
     }

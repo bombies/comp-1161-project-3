@@ -1,5 +1,7 @@
-package group.anmv.ui.components;
+package group.anmv.ui.components.suggestions;
 
+import group.anmv.ui.DriverFrame;
+import group.anmv.ui.components.dialouges.ErrorFrame;
 import group.anmv.ui.models.Ingredient;
 import group.anmv.utils.save.SaveHandler;
 
@@ -15,6 +17,7 @@ import java.io.IOException;
 public class SuggestionComponent extends JPanel {
     private final String suggestion;
     private final JComponent parent;
+    private final DriverFrame driverFrame;
     private final JFrame frame;
 
     /**
@@ -25,7 +28,8 @@ public class SuggestionComponent extends JPanel {
      * @param parent The parent panel the component will be placed on
      * @param suggestion The suggestion to be mutated
      */
-    public SuggestionComponent(JFrame frame, JComponent parent, String suggestion) {
+    public SuggestionComponent(DriverFrame driverFrame, JFrame frame, JComponent parent, String suggestion) {
+        this.driverFrame = driverFrame;
         this.suggestion = suggestion;
         this.parent = parent;
         this.frame = frame;
@@ -47,8 +51,10 @@ public class SuggestionComponent extends JPanel {
         final var button = new JButton("Accept");
         button.addActionListener((e) -> {
             try {
-                SaveHandler.appendItem(new Ingredient(suggestion, 0, 0));
-                // TODO: In-memory item list update
+                final var newIngredient = new Ingredient(suggestion, 0, 0);
+                SaveHandler.appendItem(newIngredient);
+                driverFrame.addIngredient(newIngredient);
+
                 parent.remove(this);
                 parent.validate();
                 parent.repaint();

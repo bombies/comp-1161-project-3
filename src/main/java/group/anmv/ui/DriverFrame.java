@@ -1,18 +1,19 @@
 package group.anmv.ui;
 
-import group.anmv.ui.components.EditFrame;
-import group.anmv.ui.components.ErrorFrame;
-import group.anmv.ui.components.RemoveFrame;
+import group.anmv.ui.components.mutations.EditFrame;
+import group.anmv.ui.components.mutations.EntryFrame;
+import group.anmv.ui.components.dialouges.ErrorFrame;
+import group.anmv.ui.components.mutations.RemoveFrame;
 import group.anmv.ui.models.Ingredient;
 import group.anmv.ui.models.IngredientCostComparator;
 import group.anmv.ui.models.IngredientNameComparator;
 import group.anmv.utils.app.suggestions.RecommendationUtils;
+import group.anmv.utils.save.SaveHandler;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Class to facilitate the creation of main GUI window
@@ -21,7 +22,7 @@ import java.util.List;
  */
 public class DriverFrame extends JFrame {
 
-    private ArrayList<Ingredient> groceryList = new ArrayList<>(List.of(new Ingredient("Bread", 100, 12)));
+    private ArrayList<Ingredient> groceryList = new ArrayList<>(SaveHandler.getSave().getItems());
     private JPanel buttonPanel;
     private DefaultTableModel tableModel;
     private JScrollPane scrollPane;
@@ -43,7 +44,7 @@ public class DriverFrame extends JFrame {
         JButton editIngredient = new JButton("Edit an Ingredient");
         JButton close = new JButton("Close Grocery List");
 
-        add.addActionListener((actionPerformed) -> new GroceryEntry(groceryList, this));
+        add.addActionListener((actionPerformed) -> new EntryFrame(groceryList, this));
 
         close.addActionListener((actionPerformed) -> System.exit(0));
 
@@ -51,7 +52,7 @@ public class DriverFrame extends JFrame {
             if (groceryList.size() == 0)
                 new ErrorFrame("I can't suggest any items if you have none in your list!");
             else {
-                RecommendationUtils.getSuggestedItems(
+                RecommendationUtils.getSuggestedItems(this,
                         groceryList.stream()
                                 .map(Ingredient::getName)
                                 .toList()
@@ -63,7 +64,7 @@ public class DriverFrame extends JFrame {
             if (groceryList.size() == 0)
                 new ErrorFrame("I can't suggest any recipes if you have none in your list!");
             else {
-                RecommendationUtils.getSuggestedRecipes(
+                RecommendationUtils.getSuggestedRecipes(this,
                         groceryList.stream()
                                 .map(Ingredient::getName)
                                 .toList()
@@ -111,6 +112,22 @@ public class DriverFrame extends JFrame {
         this.add(buttonPanel, BorderLayout.SOUTH);
     }
 
+    public void addIngredient(Ingredient ingredient) {
+        groceryList.add(ingredient);
+        populateTable();
+    }
+
+    public void removeIngredient(Ingredient ingredient) {
+        groceryList.remove(ingredient);
+        populateTable();
+    }
+
+    public void editIngredient(String name, Ingredient ingredient) {
+        groceryList.removeIf(i -> i.getName().equalsIgnoreCase(name));
+        groceryList.add(ingredient);
+        populateTable();
+    }
+
 
     /**
      * Method that allows for populating table on first start-up
@@ -122,6 +139,18 @@ public class DriverFrame extends JFrame {
             Object[] item = {ingredient.getName(), ingredient.getCost(), ingredient.getQuantity(), ingredient.calcTotalCost()};
             tableModel.addRow(item);
         }
+    }
+
+    public void populateTable() {
+        tableModel.setRowCount(0);
+
+        for (Ingredient ingredient : groceryList) {
+            Object[] item = {ingredient.getName(), ingredient.getCost(), ingredient.getQuantity(), ingredient.calcTotalCost()};
+            tableModel.addRow(item);
+        }
+
+        revalidate();
+        repaint();
     }
 
 
