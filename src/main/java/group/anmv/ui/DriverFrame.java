@@ -1,5 +1,6 @@
 package group.anmv.ui;
 
+import group.anmv.ui.components.EditFrame;
 import group.anmv.ui.components.ErrorFrame;
 import group.anmv.ui.components.SuggestionsFrame;
 import group.anmv.ui.models.Ingredient;
@@ -43,6 +44,7 @@ public class DriverFrame extends JFrame {
         JButton recommendIngredient = new JButton("Recommend Ingredients");
         JButton recommendRecipe = new JButton("Recommend Recipes");
         JButton removeIngredient=new JButton("Remove an Ingredient");
+        JButton editIngredient=new JButton("Edit an Ingredient");
         JButton close = new JButton("Close Grocery List");
 
         close.addActionListener((actionPerformed) -> {
@@ -82,7 +84,9 @@ public class DriverFrame extends JFrame {
            new RemoveFrame(groceryList, this);
         });
 
-
+        editIngredient.addActionListener((e)->{
+            new EditFrame(groceryList, this);
+        });
 
         buttonPanel.add(add);
         buttonPanel.add(sortCost);
@@ -90,6 +94,7 @@ public class DriverFrame extends JFrame {
         buttonPanel.add(recommendRecipe);
         buttonPanel.add(recommendIngredient);
         buttonPanel.add(removeIngredient);
+        buttonPanel.add(editIngredient);
         buttonPanel.add(close);
         if(groceryList != null) {
             String[] columnNames = {"Ingredient Name", "Cost", "Quantity", "Ingredient Total Cost"};
@@ -115,7 +120,7 @@ public class DriverFrame extends JFrame {
      */
     public void populateTable(ArrayList<Ingredient> grocerylist) {
         for (Ingredient ingredient : grocerylist){
-            Object[] item = {ingredient.getName(), ingredient.getCost()};
+            Object[] item = {ingredient.getName(), ingredient.getCost(), ingredient.getQuantity(), ingredient.calcTotalCost()};
             tableModel.addRow(item);
         }
     }

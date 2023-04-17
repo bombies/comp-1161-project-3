@@ -40,4 +40,5 @@ public class Ingredient {
         return cost * quantity;
     }
 
+
 }

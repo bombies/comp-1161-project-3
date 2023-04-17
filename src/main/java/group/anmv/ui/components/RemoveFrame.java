@@ -34,7 +34,7 @@ public class RemoveFrame extends JFrame {
         {
             final var entry = nameTextField.getText();
             boolean removed=false;
-            for (int i = 0; i <= grocerylist.size(); i++) {
+            for (int i = 0; i < grocerylist.size(); i++) {
                 if (grocerylist.get(i).getName().equalsIgnoreCase(entry.strip())) {
                     grocerylist.remove(i);
                     driverFrame.getTableModel().removeRow(i);
