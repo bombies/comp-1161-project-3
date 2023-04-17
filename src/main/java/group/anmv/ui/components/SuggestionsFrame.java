@@ -36,6 +36,14 @@ public class SuggestionsFrame extends JFrame {
         return this;
     }
 
+    public void setRecipes(List<String> suggestions) {
+        System.out.println(suggestions.size());
+        suggestionsPanel.removeAll();
+        suggestions.forEach(suggestion -> suggestionsPanel.add(new JLabel(suggestion)));
+        suggestionsPanel.validate();
+        suggestionsPanel.repaint();
+    }
+
     public void setItems(List<String> suggestions) {
         suggestionsPanel.removeAll();
         suggestions.forEach(suggestion -> new SuggestionComponent(this, suggestionsPanel, suggestion));

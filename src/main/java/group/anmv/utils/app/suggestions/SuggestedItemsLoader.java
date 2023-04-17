@@ -11,7 +11,7 @@ import java.util.concurrent.ExecutionException;
 
 public class SuggestedItemsLoader extends SwingWorker<List<String>, Object> {
     private final List<String> items;
-    private SuggestionsFrame frame = new SuggestionsFrame();
+    private final SuggestionsFrame frame = new SuggestionsFrame();
 
     public SuggestedItemsLoader(List<String> items) {
         super();
