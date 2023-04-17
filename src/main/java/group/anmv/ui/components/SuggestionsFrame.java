@@ -12,21 +12,34 @@ import java.util.List;
  * @author Ajani
  */
 public class SuggestionsFrame extends JFrame {
+    final JPanel suggestionsPanel;
 
-    public SuggestionsFrame(List<String> suggestions) {
+    public SuggestionsFrame() {
         super("Ingredient Suggestions");
 
-        final var suggestionsPanel = new JPanel();
+        suggestionsPanel = new JPanel();
         suggestionsPanel.setBorder(new EmptyBorder(10, 40, 10, 40));
         suggestionsPanel.setLayout(new GridLayout(0, 1));
         suggestionsPanel.setSize(700, 500);
+
+        setSize(700, 500);
         setContentPane(suggestionsPanel);
-
-        suggestions.forEach(suggestion -> new SuggestionComponent(this, suggestionsPanel, suggestion));
-
-        setResizable(false);
+        setResizable(true);
         setLocationByPlatform(true);
-        pack();
         setVisible(true);
+    }
+
+    public SuggestionsFrame setLoading() {
+        final var loadingLabel = new JLabel("Loading your suggestions");
+        loadingLabel.setHorizontalAlignment(JLabel.CENTER);
+        suggestionsPanel.add(loadingLabel);
+        return this;
+    }
+
+    public void setItems(List<String> suggestions) {
+        suggestionsPanel.removeAll();
+        suggestions.forEach(suggestion -> new SuggestionComponent(this, suggestionsPanel, suggestion));
+        suggestionsPanel.validate();
+        suggestionsPanel.repaint();
     }
 }
