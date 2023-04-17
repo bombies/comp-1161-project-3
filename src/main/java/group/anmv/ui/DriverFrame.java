@@ -58,7 +58,7 @@ public class DriverFrame extends JFrame {
                 new ErrorFrame("I can't suggest any items if you have none in your list!");
             else {
                 RecommendationUtils.getSuggestedItems(
-                        grocerylist.stream()
+                        groceryList.stream()
                                 .map(Ingredient::getName)
                                 .toList()
                 );
