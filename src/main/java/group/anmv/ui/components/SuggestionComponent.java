@@ -47,7 +47,7 @@ public class SuggestionComponent extends JPanel {
         final var button = new JButton("Accept");
         button.addActionListener((e) -> {
             try {
-                SaveHandler.appendItem(new Ingredient(suggestion, 0));
+                SaveHandler.appendItem(new Ingredient(suggestion, 0, 0));
                 // TODO: In-memory item list update
                 parent.remove(this);
                 parent.validate();
