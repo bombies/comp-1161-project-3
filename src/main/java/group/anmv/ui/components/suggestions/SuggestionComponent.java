@@ -52,7 +52,7 @@ public class SuggestionComponent extends JPanel {
         button.addActionListener((e) -> {
             try {
                 final var newIngredient = new Ingredient(suggestion, 0, 0);
-                SaveHandler.appendItem(newIngredient);
+                SaveHandler.ins().appendItem(newIngredient);
                 driverFrame.addIngredient(newIngredient);
 
                 parent.remove(this);

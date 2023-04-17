@@ -28,14 +28,25 @@ public class SaveHandler {
      * the data for the saved items.
      */
     private final static ObjectMapper mapper = new ObjectMapper();
+
+    private final static SaveHandler DEFAULT_INSTANCE = new SaveHandler();
+
     /**
      * The directory all data will be placed.
      */
-    private final static String DIRECTORY = "./data/";
+    private final String DIRECTORY = "./data/";
     /**
      * The file name for saved items.
      */
-    private final static String SAVED_ITEMS_FILE = DIRECTORY + "items.json";
+    private final String SAVED_ITEMS_FILE;
+
+    private SaveHandler() {
+        SAVED_ITEMS_FILE = DIRECTORY + "items.json";
+    }
+
+    private SaveHandler(String fileName) {
+        SAVED_ITEMS_FILE = DIRECTORY + fileName + ".json";
+    }
 
     /**
      * This method accepts a list of items and saves them to the save file.
@@ -47,7 +58,7 @@ public class SaveHandler {
      * @throws IOException Thrown if there is an error attempting to create
      *                     the save directory or writing to the file.
      */
-    public static long saveItems(List<Ingredient> items) throws IOException {
+    public long saveItems(List<Ingredient> items) throws IOException {
         final var saveTime = System.currentTimeMillis();
         final var model = new SavedItemsModel(items, saveTime);
         final var saveDirectory = Path.of(DIRECTORY);
@@ -69,7 +80,7 @@ public class SaveHandler {
      * @throws IOException Thrown if there is an error attempting to create
      *                     the save directory or writing to the file.
      */
-    public static void saveItems(SavedItemsModel model) throws IOException {
+    public void saveItems(SavedItemsModel model) throws IOException {
         final var saveDirectory = Path.of(DIRECTORY);
         if (!Files.exists(saveDirectory))
             Files.createDirectory(saveDirectory);
@@ -87,7 +98,7 @@ public class SaveHandler {
      * @throws IOException Thrown if there is an error attempting to create
      *                     the save directory or writing to the file.
      */
-    public static long appendItem(Ingredient item) throws IOException {
+    public long appendItem(Ingredient item) throws IOException {
         final var saveTime = System.currentTimeMillis();
         var currentSave = getSave();
 
@@ -115,7 +126,7 @@ public class SaveHandler {
      * @throws IOException Thrown if there is an error attempting to create
      *                     the save directory or writing to the file.
      */
-    public static long editItem(String name, Ingredient newInfo) throws IOException {
+    public long editItem(String name, Ingredient newInfo) throws IOException {
         final var saveTime = new AtomicLong(System.currentTimeMillis());
         final var currentSave = getSave();
 
@@ -148,7 +159,7 @@ public class SaveHandler {
      * @throws IOException Thrown if there is an error attempting to create
      *                     the save directory or writing to the file.
      */
-    public static long clearItems() throws IOException {
+    public long clearItems() throws IOException {
         return saveItems(List.of());
     }
 
@@ -162,7 +173,7 @@ public class SaveHandler {
      * @throws IllegalArgumentException Thrown if there is no item that matches
      *                                  the item passed.
      */
-    public static long removeItem(Ingredient item) throws IOException {
+    public long removeItem(Ingredient item) throws IOException {
         final var currentSave = getSave();
         if (currentSave == null)
             throw new IllegalArgumentException("There is nothing to remove!");
@@ -180,13 +191,23 @@ public class SaveHandler {
      * @return An object-wrapper of the saved information.
      * If there is no information null will be returned.
      */
-    public static SavedItemsModel getSave() {
+    public SavedItemsModel getSave() {
         try {
             final var save = readFromFile(new File(SAVED_ITEMS_FILE));
             return mapper.readValue(save, SavedItemsModel.class);
         } catch (IOException e) {
             return null;
         }
+    }
+
+    public static SaveHandler ins(String fileName) {
+        if (fileName == null)
+            return DEFAULT_INSTANCE;
+        else return new SaveHandler(fileName);
+    }
+
+    public static SaveHandler ins() {
+        return ins(null);
     }
 
     /**

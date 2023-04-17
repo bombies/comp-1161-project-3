@@ -43,7 +43,7 @@ public class RemoveFrame extends JFrame {
                     .ifPresentOrElse(item -> {
                         driverFrame.removeIngredient(item);
                         try {
-                            SaveHandler.removeItem(item);
+                            SaveHandler.ins().removeItem(item);
                             driverFrame.removeIngredient(item);
                             new SuccessFrame("Removed item with name: " + item.getName());
                             setVisible(false);

@@ -62,7 +62,7 @@ public class EntryFrame extends JFrame {
 
                 driverFrame.getTableModel().addRow(ingredientMetaData);
                 driverFrame.addIngredient(ingredient);
-                SaveHandler.appendItem(ingredient);
+                SaveHandler.ins().appendItem(ingredient);
                 new SuccessFrame("Successfully added ingredient with name: " + ingredient.getName());
                 setVisible(false);
             } catch (NumberFormatException ex) {

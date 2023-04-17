@@ -18,6 +18,9 @@ import static org.junit.Assert.*;
  */
 public class SaveTests {
 
+    private final SaveHandler saveHandler = SaveHandler.ins("test");
+
+
     /**
      * Test if items can be successfully saved.
      *
@@ -25,6 +28,8 @@ public class SaveTests {
      */
     @Test
     public void testItemSave() throws IOException {
+        saveHandler.clearItems();
+
         final var testItems = List.of(
                 new Ingredient("Apple", 10, 3),
                 new Ingredient("Cherries", 10, 4),
@@ -32,8 +37,8 @@ public class SaveTests {
                 new Ingredient("Baking Soda", 10, 5)
         );
 
-        final var saveTime = SaveHandler.saveItems(testItems);
-        final var optimisticFile = new File("./data/items.json");
+        final var saveTime = saveHandler.saveItems(testItems);
+        final var optimisticFile = new File("./data/test.json");
         final var optimisticContent = new JSONObject()
                 .put("items", testItems)
                 .put("last_saved", saveTime);
@@ -49,6 +54,8 @@ public class SaveTests {
      */
     @Test
     public void testItemAppendSave() throws IOException {
+        saveHandler.clearItems();
+
         final var testSavedItemsModel = new SavedItemsModel(
                 List.of(
                         new Ingredient("Apple", 10, 2),
@@ -59,20 +66,22 @@ public class SaveTests {
                 System.currentTimeMillis()
         );
 
-        SaveHandler.saveItems(testSavedItemsModel);
-        final var saveTime = SaveHandler.appendItem(new Ingredient("Bananas", 10, 5));
-        final var optimisticFile = new File("./data/items.json");
+        saveHandler.saveItems(testSavedItemsModel);
+        final var saveTime = saveHandler.appendItem(new Ingredient("Bananas", 10, 5));
+        final var optimisticFile = new File("./data/test.json");
         final var optimisticContent = new JSONObject()
                 .put("items", List.of(
                         new Ingredient("Apple", 10, 2),
-                        new Ingredient("Cherries", 10, 4),
-                        new Ingredient("Watermelon", 10, 5),
-                        new Ingredient("Baking Soda", 10, 6),
-                        new Ingredient("Bananas", 10, 7)
+                        new Ingredient("Cherries", 10, 3),
+                        new Ingredient("Watermelon", 10, 4),
+                        new Ingredient("Baking Soda", 10, 5),
+                        new Ingredient("Bananas", 10, 5)
                 ))
                 .put("last_saved", saveTime);
         assertNotNull(optimisticFile);
-        assertTrue("Testing if content is the same", optimisticContent.similar(new JSONObject(SaveHandler.readFromFile(optimisticFile))));
+
+        final var actualContent = SaveHandler.readFromFile(optimisticFile);
+        assertTrue("Testing if content is the same", optimisticContent.similar(new JSONObject(actualContent)));
     }
 
     /**
@@ -82,6 +91,8 @@ public class SaveTests {
      */
     @Test
     public void testItemRemoval() throws IOException {
+        saveHandler.clearItems();
+
         final var testSavedItemsModel = new SavedItemsModel(
                 List.of(
                         new Ingredient("Apple", 10, 3),
@@ -92,19 +103,21 @@ public class SaveTests {
                 System.currentTimeMillis()
         );
 
-        SaveHandler.saveItems(testSavedItemsModel);
-        final var saveTime = SaveHandler.removeItem(new Ingredient("Baking Soda", 10, 4));
-        final var optimisticFile = new File("./data/items.json");
+        saveHandler.saveItems(testSavedItemsModel);
+        final var saveTime = saveHandler.removeItem(new Ingredient("Baking Soda", 10, 6));
+        final var optimisticFile = new File("./data/test.json");
         final var optimisticContent = new JSONObject()
                 .put("items", List.of(
                                 new Ingredient("Apple", 10, 3 ),
                                 new Ingredient("Cherries", 10, 4),
-                                new Ingredient("Watermelon", 10, 4)
+                                new Ingredient("Watermelon", 10, 5)
                         )
                 )
                 .put("last_saved", saveTime);
         assertNotNull(optimisticFile);
-        assertTrue("Testing if content is the same", optimisticContent.similar(new JSONObject(SaveHandler.readFromFile(optimisticFile))));
+
+        final var actualContent = SaveHandler.readFromFile(optimisticFile);
+        assertTrue("Testing if content is the same", optimisticContent.similar(new JSONObject(actualContent)));
     }
 
     /**
@@ -114,6 +127,8 @@ public class SaveTests {
      */
     @Test
     public void testItemClear() throws IOException {
+        saveHandler.clearItems();
+
         final var testSavedItemsModel = new SavedItemsModel(
                 List.of(
                         new Ingredient("Apple", 10,2 ),
@@ -124,9 +139,9 @@ public class SaveTests {
                 System.currentTimeMillis()
         );
 
-        SaveHandler.saveItems(testSavedItemsModel);
-        final var saveTime = SaveHandler.clearItems();
-        final var optimisticFile = new File("./data/items.json");
+        saveHandler.saveItems(testSavedItemsModel);
+        final var saveTime = saveHandler.clearItems();
+        final var optimisticFile = new File("./data/test.json");
         final var optimisticContent = new JSONObject()
                 .put("items", List.of())
                 .put("last_saved", saveTime);

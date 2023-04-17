@@ -78,7 +78,7 @@ public class EditFrame extends JFrame {
 
                                 final var newIngredient = new Ingredient(item.getName(), cost, quantity);
 
-                                SaveHandler.editItem(item.getName(), newIngredient);
+                                SaveHandler.ins().editItem(item.getName(), newIngredient);
                                 this.driverFrame.editIngredient(item.getName(), newIngredient);
                                 new SuccessFrame("Successfully edit item with name: " + item.getName());
                                 setVisible(false);

@@ -22,7 +22,7 @@ import java.util.ArrayList;
  */
 public class DriverFrame extends JFrame {
 
-    private ArrayList<Ingredient> groceryList = new ArrayList<>(SaveHandler.getSave().getItems());
+    private ArrayList<Ingredient> groceryList = new ArrayList<>(SaveHandler.ins().getSave().getItems());
     private JPanel buttonPanel;
     private DefaultTableModel tableModel;
     private JScrollPane scrollPane;
