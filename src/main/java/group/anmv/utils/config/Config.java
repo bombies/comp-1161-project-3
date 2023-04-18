@@ -1,5 +1,8 @@
 package group.anmv.utils.config;
 
+/**
+ * The model for the application's configuration
+ */
 public class Config {
     public final String gpt_api_key;
 

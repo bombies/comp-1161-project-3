@@ -33,6 +33,10 @@ public class SuggestionsFrame extends JFrame {
         setVisible(true);
     }
 
+    /**
+     * Set the content of the frame to reflecting the loading state
+     * @return This object
+     */
     public SuggestionsFrame setLoading() {
         final var loadingLabel = new JLabel("Loading your suggestions");
         loadingLabel.setHorizontalAlignment(JLabel.CENTER);
@@ -40,6 +44,10 @@ public class SuggestionsFrame extends JFrame {
         return this;
     }
 
+    /**
+     * Set the content of the frame to be the loaded recipe suggestions
+     * @param suggestions The list of loaded recipe suggestions
+     */
     public void setRecipes(List<String> suggestions) {
         System.out.println(suggestions.size());
         suggestionsPanel.removeAll();
@@ -48,6 +56,10 @@ public class SuggestionsFrame extends JFrame {
         suggestionsPanel.repaint();
     }
 
+    /**
+     * Set the content of the frame to be the loaded ingredient suggestions
+     * @param suggestions The list of loaded ingredient suggestions
+     */
     public void setItems(List<String> suggestions) {
         suggestionsPanel.removeAll();
         suggestions.forEach(suggestion -> new SuggestionComponent(driverFrame, this, suggestionsPanel, suggestion));

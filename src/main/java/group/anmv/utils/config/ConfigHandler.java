@@ -5,6 +5,10 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
 import java.io.IOException;
 
+/**
+ * This class is to be used to fetch the configuration
+ * information stored in the application's classpath.
+ */
 public class ConfigHandler {
     private static Config config;
 
@@ -22,6 +26,10 @@ public class ConfigHandler {
 
     private ConfigHandler() {}
 
+    /**
+     * Get the serialized configuration.
+     * @return The serialized configuration
+     */
     public static Config get() {
         return config;
     }

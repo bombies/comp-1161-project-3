@@ -3,6 +3,12 @@ package group.anmv.ui.models;
 
 import java.util.Comparator;
 
+/**
+ * This comparator will be used to sort ingredients
+ * in ascending order by name.
+ *
+ * @author Mohitha Chindepalli
+ */
 public class IngredientNameComparator implements Comparator<Ingredient> {
 
     private String name;

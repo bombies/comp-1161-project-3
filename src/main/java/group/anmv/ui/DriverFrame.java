@@ -112,16 +112,29 @@ public class DriverFrame extends JFrame {
         this.add(buttonPanel, BorderLayout.SOUTH);
     }
 
+    /**
+     * Add a new ingredient to the table
+     * @param ingredient The ingredient to add
+     */
     public void addIngredient(Ingredient ingredient) {
         groceryList.add(ingredient);
         populateTable();
     }
 
+    /**
+     * Remove an ingredient from the table
+     * @param ingredient The ingredient to remove
+     */
     public void removeIngredient(Ingredient ingredient) {
         groceryList.remove(ingredient);
         populateTable();
     }
 
+    /**
+     * Edit a specific ingredient in the table
+     * @param name The name of the ingredient to edit
+     * @param ingredient The new content of the ingredient
+     */
     public void editIngredient(String name, Ingredient ingredient) {
         groceryList.removeIf(i -> i.getName().equalsIgnoreCase(name));
         groceryList.add(ingredient);
@@ -141,6 +154,10 @@ public class DriverFrame extends JFrame {
         }
     }
 
+    /**
+     * Re-render the table with the current
+     * information in the grocery list
+     */
     public void populateTable() {
         tableModel.setRowCount(0);
 

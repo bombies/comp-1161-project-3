@@ -10,6 +10,14 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+/**
+ * This class allows for the multithreaded asynchronous
+ * fetching and displaying of suggested items. It utilizes
+ * the SwingWorker class to ensure the main thread isn't blocked
+ * by the lengthy fetch operation.
+ *
+ * @author Ajani Green
+ */
 public class SuggestedItemsLoader extends SwingWorker<List<String>, Object> {
     private final List<String> items;
     private final SuggestionsFrame frame;
