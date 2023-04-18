@@ -42,7 +42,7 @@ public class SuggestedRecipesLoader extends SwingWorker<List<String>, Object> {
         final var asyncResponse = GPTService.instance().getResponse(prompt, assistant);
         return asyncResponse.thenApply(response -> {
             final var suggestions = response
-                    .split("[0-9]{1,2}.\\s");
+                    .split("[0-9]{1,2}\\.\\s");
 
             return Arrays.stream(suggestions)
                     .filter(suggestion -> !items.contains(suggestion))
